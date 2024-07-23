@@ -4,8 +4,8 @@ import com.app.auth_server.dto.SignUpDto;
 import com.app.auth_server.entities.AppUser;
 import com.app.auth_server.entities.Role;
 import com.app.auth_server.entities.RoleType;
+import com.app.auth_server.repositories.AppUsersRepository;
 import com.app.auth_server.repositories.RolesRepository;
-import com.app.auth_server.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final AppUsersRepository appUsersRepository;
     private final RolesRepository rolesRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -34,6 +34,6 @@ public class AuthService {
                 .roles(roles)
                 .build();
 
-        return this.userRepository.save(user);
+        return this.appUsersRepository.save(user);
     }
 }

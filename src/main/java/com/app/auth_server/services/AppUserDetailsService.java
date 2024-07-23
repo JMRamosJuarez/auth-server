@@ -1,6 +1,6 @@
 package com.app.auth_server.services;
 
-import com.app.auth_server.repositories.UserRepository;
+import com.app.auth_server.repositories.AppUsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class AppUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final AppUsersRepository usersRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepository.findByUsername(username).orElseThrow(
+        return this.usersRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
     }

@@ -23,6 +23,8 @@ import java.util.Set;
 public class AppClient {
 
     @Id
+    private String id;
+
     @JsonProperty("client_id")
     @Column(name = "client_id")
     private String clientId;
@@ -30,6 +32,10 @@ public class AppClient {
     @JsonProperty("client_secret")
     @Column(name = "client_secret")
     private String clientSecret;
+
+    @JsonProperty("client_name")
+    @Column(name = "client_name")
+    private String clientName;
 
     @JsonProperty("client_authentication_methods")
     @ElementCollection(fetch = FetchType.EAGER)
@@ -49,16 +55,20 @@ public class AppClient {
 
     public RegisteredClient toRegisteredClient() {
         return RegisteredClient
-                .withId(this.clientId)
+                .withId(this.id)
                 .clientId(this.clientId)
                 .clientSecret(this.clientSecret)
+                .clientName(this.clientName)
                 .clientIdIssuedAt(new Date().toInstant())
                 .clientAuthenticationMethods(am -> am.addAll(this.clientAuthenticationMethods))
                 .authorizationGrantTypes(gt -> gt.addAll(this.authorizationGrantTypes))
                 .redirectUris(ru -> ru.addAll(this.redirectUris))
                 .scopes(sc -> sc.addAll(this.scopes))
                 .clientSettings(
-                        ClientSettings.builder().requireAuthorizationConsent(true).build()
+                        ClientSettings
+                                .builder()
+                                .requireAuthorizationConsent(true)
+                                .build()
                 )
                 .build();
     }
