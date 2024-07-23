@@ -1,8 +1,8 @@
 package com.app.auth_server.controllers;
 
 import com.app.auth_server.dto.CreateClientDto;
-import com.app.auth_server.entities.AppProject;
-import com.app.auth_server.services.AppProjectsService;
+import com.app.auth_server.entities.AppClient;
+import com.app.auth_server.services.AppClientsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/v1/clients")
 @RequiredArgsConstructor
-public class ProjectsController {
+public class ClientsController {
 
-    private final AppProjectsService appProjectsService;
+    private final AppClientsService appClientsService;
 
     @PostMapping("/")
-    public ResponseEntity<AppProject> create(
+    public ResponseEntity<AppClient> create(
             @RequestBody CreateClientDto request
     ) {
-        final AppProject client = this.appProjectsService.create(request);
+        final AppClient client = this.appClientsService.create(request);
         return ResponseEntity.ok(client);
     }
 }

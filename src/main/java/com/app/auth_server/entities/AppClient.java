@@ -19,8 +19,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "app_projects")
-public class AppProject {
+@Table(name = "app_clients")
+public class AppClient {
 
     @Id
     @JsonProperty("client_id")
@@ -31,9 +31,9 @@ public class AppProject {
     @Column(name = "client_secret")
     private String clientSecret;
 
-    @JsonProperty("authentication_methods")
+    @JsonProperty("client_authentication_methods")
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<ClientAuthenticationMethod> authenticationMethods;
+    private Set<ClientAuthenticationMethod> clientAuthenticationMethods;
 
     @JsonProperty("authorization_grant_types")
     @ElementCollection(fetch = FetchType.EAGER)
@@ -53,7 +53,7 @@ public class AppProject {
                 .clientId(this.clientId)
                 .clientSecret(this.clientSecret)
                 .clientIdIssuedAt(new Date().toInstant())
-                .clientAuthenticationMethods(am -> am.addAll(this.authenticationMethods))
+                .clientAuthenticationMethods(am -> am.addAll(this.clientAuthenticationMethods))
                 .authorizationGrantTypes(gt -> gt.addAll(this.authorizationGrantTypes))
                 .redirectUris(ru -> ru.addAll(this.redirectUris))
                 .scopes(sc -> sc.addAll(this.scopes))

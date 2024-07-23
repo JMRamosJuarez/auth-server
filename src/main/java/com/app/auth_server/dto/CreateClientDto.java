@@ -22,7 +22,7 @@ public class CreateClientDto {
     private String clientSecret;
 
     @JsonProperty("authentication_methods")
-    private Set<ClientAuthenticationMethod> authenticationMethods;
+    private Set<ClientAuthenticationMethod> clientAuthenticationMethods;
 
     @JsonProperty("authorization_grant_types")
     private Set<AuthorizationGrantType> authorizationGrantTypes;
