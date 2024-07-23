@@ -31,6 +31,9 @@ public class AuthService {
         final AppUser user = AppUser.builder()
                 .username(request.getUsername())
                 .password(this.passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .email(request.getEmail())
+                .birthDay(request.getBirthDay())
                 .roles(roles)
                 .build();
 

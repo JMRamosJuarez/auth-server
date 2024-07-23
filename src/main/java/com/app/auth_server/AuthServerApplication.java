@@ -33,6 +33,7 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
 //                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
 //                        .scope("client.create")
 //                        .scope("client.read")
+//                        .scope("profile")
 //                        .build();
 //        this.registeredClientRepository.save(rootClient);
 //        Role owner = Role.builder().type(RoleType.OWNER).build();
@@ -46,6 +47,9 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
 //                .builder()
 //                .username("jmramosjuarez")
 //                .password("password")
+//                .name("Jesús Manuel Ramos Juárez")
+//                .email("jesus@gmail.com")
+//                .birthDay(LocalDate.of(1991, Month.OCTOBER, 22))
 //                .roles(List.of("OWNER", "ADMIN", "USER"))
 //                .build();
 //

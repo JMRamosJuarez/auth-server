@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -18,6 +19,15 @@ public class SignUpDto {
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("email")
+    private String email;
+
+    @JsonProperty("birthday")
+    private LocalDate birthDay;
 
     @JsonProperty("roles")
     private List<String> roles;

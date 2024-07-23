@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
@@ -20,8 +21,21 @@ import java.util.Set;
 public class AppUser implements UserDetails {
 
     @Id
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "birthday")
+    @Temporal(TemporalType.DATE)
+    private LocalDate birthDay;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
