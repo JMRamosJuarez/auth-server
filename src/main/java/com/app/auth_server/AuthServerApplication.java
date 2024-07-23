@@ -42,7 +42,13 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
 //        Role user = Role.builder().type(RoleType.USER).build();
 //        this.rolesRepository.save(user);
 //
-//        SignUpDto signUpDto = SignUpDto.builder().username("jmramosjuarez").password("password").roles(List.of("OWNER", "ADMIN", "USER")).build();
+//        SignUpDto signUpDto = SignUpDto
+//                .builder()
+//                .username("jmramosjuarez")
+//                .password("password")
+//                .roles(List.of("OWNER", "ADMIN", "USER"))
+//                .build();
+//
 //        this.authService.signUp(signUpDto);
 //    }
 }
