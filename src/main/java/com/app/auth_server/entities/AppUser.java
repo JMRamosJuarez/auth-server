@@ -46,6 +46,10 @@ public class AppUser implements UserDetails {
     )
     private Set<Role> roles;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "oauth_client", referencedColumnName = "id")
+    private OAuthClient oAuthClient;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;

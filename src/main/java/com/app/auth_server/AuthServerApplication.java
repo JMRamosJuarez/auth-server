@@ -11,13 +11,13 @@ public class AuthServerApplication implements CommandLineRunner {
 //    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
+//    private OAuthClientsRepository oAuthClientsRepository;
+
+//    @Autowired
 //    private RolesRepository rolesRepository;
 
 //    @Autowired
 //    private AppUsersRepository appUsersRepository;
-
-//    @Autowired
-//    private OAuthClientsRepository oAuthClientsRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(AuthServerApplication.class, args);
@@ -27,41 +27,40 @@ public class AuthServerApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 //        //(1) Create the root-oauth-client
-//        OAuthClient rootClient = OAuthClient.builder()
-//                .id(UUID.randomUUID().toString())
-//                .clientId("root-oauth-client")
-//                .clientSecret(this.passwordEncoder.encode("root-oauth-client-secret"))
-//                .clientName("Root oauth client")
-//                .clientAuthenticationMethods(
-//                        Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                )
-//                .authorizationGrantTypes(
-//                        Set.of(
-//                                AuthorizationGrantType.CLIENT_CREDENTIALS,
-//                                AuthorizationGrantType.AUTHORIZATION_CODE,
-//                                AuthorizationGrantType.REFRESH_TOKEN
+//        OAuthClient rootClient = this.oAuthClientsRepository.save(
+//                OAuthClient.builder()
+//                        .id(UUID.randomUUID().toString())
+//                        .clientId("root-oauth-client")
+//                        .clientSecret(this.passwordEncoder.encode("root-oauth-client-secret"))
+//                        .clientName("Root oauth client")
+//                        .clientAuthenticationMethods(
+//                                Set.of(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 //                        )
-//                )
-//                .redirectUris(
-//                        Set.of(
-//                                //Your custom client
-//                                "http://127.0.0.1:8081/login/oauth2/code/auth-server-client",
-//                                //Postman callback url
-//                                "https://oauth.pstmn.io/v1/callback"
+//                        .authorizationGrantTypes(
+//                                Set.of(
+//                                        AuthorizationGrantType.CLIENT_CREDENTIALS,
+//                                        AuthorizationGrantType.AUTHORIZATION_CODE,
+//                                        AuthorizationGrantType.REFRESH_TOKEN
+//                                )
 //                        )
-//                )
-//                .scopes(
-//                        Set.of(
-//                                "client.create",
-//                                "client.read",
-//                                "openid",
-//                                "profile",
-//                                "email"
+//                        .redirectUris(
+//                                Set.of(
+//                                        //Your custom client
+//                                        "http://127.0.0.1:8081/login/oauth2/code/auth-server-client",
+//                                        //Postman callback url
+//                                        "https://oauth.pstmn.io/v1/callback"
+//                                )
 //                        )
-//                )
-//                .build();
-//
-//        this.oAuthClientsRepository.save(rootClient);
+//                        .scopes(
+//                                Set.of(
+//                                        "client.create",
+//                                        "client.read",
+//                                        "openid",
+//                                        "profile",
+//                                        "email"
+//                                )
+//                        ).build()
+//        );
 //
 //        //(2) Create the user roles
 //        final Role owner = this.rolesRepository.save(
@@ -84,6 +83,7 @@ public class AuthServerApplication implements CommandLineRunner {
 //                .email("root@email.com")
 //                .birthDay(LocalDate.of(1991, Month.OCTOBER, 22))
 //                .roles(Set.of(owner, admin, user))
+//                .oAuthClient(rootClient)
 //                .build();
 //
 //        this.appUsersRepository.save(rootAppUser);

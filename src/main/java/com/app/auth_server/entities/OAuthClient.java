@@ -53,6 +53,9 @@ public class OAuthClient {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> scopes;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "oAuthClient")
+    private Set<AppUser> users;
+
     public RegisteredClient toRegisteredClient() {
         return RegisteredClient
                 .withId(this.id)
