@@ -1,10 +1,11 @@
 package com.app.auth_server;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuthServerApplication /*implements CommandLineRunner*/ {
+public class AuthServerApplication implements CommandLineRunner {
 
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
@@ -22,8 +23,8 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
         SpringApplication.run(AuthServerApplication.class, args);
     }
 
-//    @Override
-//    public void run(String... args) throws Exception {
+    @Override
+    public void run(String... args) throws Exception {
 //        RegisteredClient rootClient =
 //                RegisteredClient.withId(UUID.randomUUID().toString())
 //                        .clientId("root-client")
@@ -33,7 +34,6 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
 //                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
 //                        .scope("client.create")
 //                        .scope("client.read")
-//                        .scope("profile")
 //                        .build();
 //        this.registeredClientRepository.save(rootClient);
 //        Role owner = Role.builder().type(RoleType.OWNER).build();
@@ -54,5 +54,5 @@ public class AuthServerApplication /*implements CommandLineRunner*/ {
 //                .build();
 //
 //        this.authService.signUp(signUpDto);
-//    }
+    }
 }

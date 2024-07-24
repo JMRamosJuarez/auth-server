@@ -1,5 +1,6 @@
 package com.app.auth_server.config;
 
+import com.app.auth_server.services.AppUserDetailsService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -9,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
@@ -33,13 +36,19 @@ public class JwtConfig {
     }
 
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(AppUserDetailsService userDetailsService) {
         return context -> {
             final Authentication principal = context.getPrincipal();
 
             OAuth2TokenType tokenType = context.getTokenType();
 
+            if (OidcParameterNames.ID_TOKEN.equals(tokenType.getValue())) {
+                OidcUserInfo userInfo = userDetailsService.getUserInfo(principal.getName());
+                context.getClaims().claims(claims -> claims.putAll(userInfo.getClaims()));
+            }
+
             if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {
+
                 Set<String> roles = principal
                         .getAuthorities()
                         .stream()
