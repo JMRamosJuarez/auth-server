@@ -59,7 +59,7 @@ public class AppUsersService implements UserDetailsService {
     }
 
     public OidcUserInfo getUserInfo(String username) {
-        AppUser user = this.usersRepository.findByUsername(username).orElseThrow(
+        final AppUser user = this.usersRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
         return OidcUserInfo.builder()
