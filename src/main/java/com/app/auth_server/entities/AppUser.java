@@ -42,7 +42,7 @@ public class AppUser implements UserDetails {
 
     @Column(name = "birthday")
     @Temporal(TemporalType.DATE)
-    private LocalDate birthDay;
+    private LocalDate birthdate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -62,7 +62,7 @@ public class AppUser implements UserDetails {
                 .builder()
                 .name(this.name)
                 .email(this.email)
-                .birthDay(this.birthDay)
+                .birthdate(this.birthdate)
                 .roles(this.roles)
                 .build();
     }

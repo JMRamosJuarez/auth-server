@@ -26,8 +26,8 @@ public class CreateAppUserDto {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("birthday")
-    private LocalDate birthDay;
+    @JsonProperty("birthdate")
+    private LocalDate birthdate;
 
     @JsonProperty("roles")
     private List<String> roles;

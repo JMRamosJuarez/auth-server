@@ -50,7 +50,7 @@ public class AppUsersService implements UserDetailsService {
                         .password(this.passwordEncoder.encode(createAppUserDto.getPassword()))
                         .name(createAppUserDto.getName())
                         .email(createAppUserDto.getEmail())
-                        .birthDay(createAppUserDto.getBirthDay())
+                        .birthdate(createAppUserDto.getBirthdate())
                         .roles(roles)
                         .build()
         );
@@ -66,7 +66,7 @@ public class AppUsersService implements UserDetailsService {
                 .subject(username)
                 .name(user.getName())
                 .email(user.getEmail())
-                .birthdate(user.getBirthDay().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .birthdate(user.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .build();
     }
 }
