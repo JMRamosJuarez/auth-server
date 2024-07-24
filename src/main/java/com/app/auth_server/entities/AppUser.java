@@ -1,5 +1,6 @@
 package com.app.auth_server.entities;
 
+import com.app.auth_server.dto.AppUserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +49,15 @@ public class AppUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
+    }
+
+    public AppUserDto toDto() {
+        return AppUserDto
+                .builder()
+                .name(this.name)
+                .email(this.email)
+                .birthDay(this.birthDay)
+                .roles(this.roles)
+                .build();
     }
 }

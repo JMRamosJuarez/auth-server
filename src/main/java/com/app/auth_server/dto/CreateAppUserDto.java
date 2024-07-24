@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpDto {
+public class CreateAppUserDto {
     @JsonProperty("username")
     private String username;
 

@@ -1,13 +1,13 @@
 package com.app.auth_server.repositories;
 
-import com.app.auth_server.entities.AppClient;
+import com.app.auth_server.entities.OAuthClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AppClientsRepository extends JpaRepository<AppClient, String> {
+public interface OAuthClientsRepository extends JpaRepository<OAuthClient, String> {
 
-    Optional<AppClient> findByClientId(String id);
+    Optional<OAuthClient> findByClientId(String id);
 }

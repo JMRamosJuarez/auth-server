@@ -1,7 +1,7 @@
 package com.app.auth_server.services;
 
-import com.app.auth_server.entities.AppClient;
-import com.app.auth_server.repositories.AppClientsRepository;
+import com.app.auth_server.entities.OAuthClient;
+import com.app.auth_server.repositories.OAuthClientsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RegisteredAppClientsRepository implements RegisteredClientRepository {
+public class OAuthClientsService implements RegisteredClientRepository {
 
-    private final AppClientsRepository appClientsRepository;
+    private final OAuthClientsRepository oAuthClientsRepository;
 
     @Override
     public void save(RegisteredClient registeredClient) {
-        AppClient client = AppClient
+
+        OAuthClient client = OAuthClient
                 .builder()
                 .id(registeredClient.getId())
                 .clientId(registeredClient.getClientId())
@@ -26,12 +27,13 @@ public class RegisteredAppClientsRepository implements RegisteredClientRepositor
                 .redirectUris(registeredClient.getRedirectUris())
                 .scopes(registeredClient.getScopes())
                 .build();
-        this.appClientsRepository.save(client);
+
+        this.oAuthClientsRepository.save(client);
     }
 
     @Override
     public RegisteredClient findById(String id) {
-        return this.appClientsRepository
+        return this.oAuthClientsRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found"))
                 .toRegisteredClient();
@@ -39,7 +41,7 @@ public class RegisteredAppClientsRepository implements RegisteredClientRepositor
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
-        return this.appClientsRepository
+        return this.oAuthClientsRepository
                 .findByClientId(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found"))
                 .toRegisteredClient();

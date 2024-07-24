@@ -1,6 +1,6 @@
 package com.app.auth_server.config;
 
-import com.app.auth_server.services.AppUserDetailsService;
+import com.app.auth_server.services.AppUsersService;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -36,14 +36,14 @@ public class JwtConfig {
     }
 
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(AppUserDetailsService userDetailsService) {
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(AppUsersService usersService) {
         return context -> {
             final Authentication principal = context.getPrincipal();
 
             OAuth2TokenType tokenType = context.getTokenType();
 
             if (OidcParameterNames.ID_TOKEN.equals(tokenType.getValue())) {
-                OidcUserInfo userInfo = userDetailsService.getUserInfo(principal.getName());
+                OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
                 context.getClaims().claims(claims -> claims.putAll(userInfo.getClaims()));
             }
 

@@ -19,8 +19,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "app_clients")
-public class AppClient {
+@Table(name = "oauth_clients")
+public class OAuthClient {
 
     @Id
     private String id;
