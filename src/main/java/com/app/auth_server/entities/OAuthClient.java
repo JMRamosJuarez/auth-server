@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Set;
 
 @Data
@@ -33,6 +34,11 @@ public class OAuthClient {
     @Column(name = "client_secret")
     private String clientSecret;
 
+    @JsonProperty("client_id_issued_at")
+    @Column(name = "client_id_issued_at")
+    @CreationTimestamp
+    private Instant clientIdIssuedAt;
+
     @JsonProperty("client_name")
     @Column(name = "client_name")
     private String clientName;
@@ -53,16 +59,13 @@ public class OAuthClient {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> scopes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "oAuthClient")
-    private Set<AppUser> users;
-
     public RegisteredClient toRegisteredClient() {
         return RegisteredClient
                 .withId(this.id)
                 .clientId(this.clientId)
                 .clientSecret(this.clientSecret)
                 .clientName(this.clientName)
-                .clientIdIssuedAt(new Date().toInstant())
+                .clientIdIssuedAt(this.clientIdIssuedAt)
                 .clientAuthenticationMethods(am -> am.addAll(this.clientAuthenticationMethods))
                 .authorizationGrantTypes(gt -> gt.addAll(this.authorizationGrantTypes))
                 .redirectUris(ru -> ru.addAll(this.redirectUris))

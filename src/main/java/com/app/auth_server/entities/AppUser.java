@@ -12,16 +12,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "app_users")
+@Table(name = "app_users", uniqueConstraints = {
+        @UniqueConstraint(name = "unique_user", columnNames = {"username", "email"}),
+})
 public class AppUser implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     @Column(name = "username")
     private String username;
 
@@ -45,10 +51,6 @@ public class AppUser implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id")
     )
     private Set<Role> roles;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "oauth_client", referencedColumnName = "id")
-    private OAuthClient oAuthClient;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

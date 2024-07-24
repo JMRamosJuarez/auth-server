@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class AppUsersController {
 
     @Autowired
     private AppUsersService usersService;
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<AppUserDto> create(@RequestBody CreateAppUserDto createAppUserDto) {
         final AppUserDto userDto = this.usersService.create(createAppUserDto);
         return ResponseEntity.ok(userDto);
