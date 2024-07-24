@@ -65,7 +65,6 @@ public class SecurityConfig {
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings
                 .builder()
-                .issuer("http://localhost:9000")
                 .oidcClientRegistrationEndpoint("/oauth2/clients")
                 .oidcUserInfoEndpoint("/oauth2/user")
                 .build();
