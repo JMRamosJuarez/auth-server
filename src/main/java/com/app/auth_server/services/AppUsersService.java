@@ -63,7 +63,7 @@ public class AppUsersService implements UserDetailsService {
                 () -> new UsernameNotFoundException("User not found")
         );
         return OidcUserInfo.builder()
-                .subject(username)
+                .subject(user.getId().toString())
                 .name(user.getName())
                 .email(user.getEmail())
                 .birthdate(user.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))

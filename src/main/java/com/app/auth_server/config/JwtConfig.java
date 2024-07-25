@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
@@ -40,42 +41,45 @@ public class JwtConfig {
         return context -> {
             final Authentication principal = context.getPrincipal();
 
-            OAuth2TokenType tokenType = context.getTokenType();
+            final OAuth2TokenType tokenType = context.getTokenType();
+
+            final JwtClaimsSet.Builder claims = context.getClaims();
+
+            final OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
 
             if (OidcParameterNames.ID_TOKEN.equals(tokenType.getValue())) {
-                OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
-                context.getClaims().claims(claims -> claims.putAll(userInfo.getClaims()));
+                claims.claims(c -> c.putAll(userInfo.getClaims()));
             }
 
             if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {
-
-                Set<String> roles = principal
+                final Set<String> roles = principal
                         .getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
-                context.getClaims().claim("roles", roles);
+                claims.claim("sub", userInfo.getSubject());
+                claims.claim("roles", roles);
             }
         };
     }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
-        RSAKey rsaKey = this.generateRSAKey();
-        JWKSet jwkSet = new JWKSet(rsaKey);
+        final RSAKey rsaKey = this.generateRSAKey();
+        final JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
 
     private KeyPair generateRsaKey() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
     }
 
     private RSAKey generateRSAKey() throws NoSuchAlgorithmException {
-        KeyPair keyPair = generateRsaKey();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        final KeyPair keyPair = generateRsaKey();
+        final RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        final RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         return new RSAKey.Builder(publicKey)
                 .privateKey(privateKey)
                 .keyID(UUID.randomUUID().toString())
