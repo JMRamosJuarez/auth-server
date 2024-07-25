@@ -15,8 +15,7 @@ public class OAuthClientsService implements RegisteredClientRepository {
 
     @Override
     public void save(RegisteredClient registeredClient) {
-
-        OAuthClient client = OAuthClient
+        final OAuthClient client = OAuthClient
                 .builder()
                 .id(registeredClient.getId())
                 .clientId(registeredClient.getClientId())

@@ -30,14 +30,14 @@ public class OAuthClient {
     @Column(name = "client_id")
     private String clientId;
 
-    @JsonProperty("client_secret")
-    @Column(name = "client_secret")
-    private String clientSecret;
-
     @JsonProperty("client_id_issued_at")
     @Column(name = "client_id_issued_at")
     @CreationTimestamp
     private Instant clientIdIssuedAt;
+
+    @JsonProperty("client_secret")
+    @Column(name = "client_secret")
+    private String clientSecret;
 
     @JsonProperty("client_name")
     @Column(name = "client_name")
@@ -63,9 +63,9 @@ public class OAuthClient {
         return RegisteredClient
                 .withId(this.id)
                 .clientId(this.clientId)
+                .clientIdIssuedAt(this.clientIdIssuedAt)
                 .clientSecret(this.clientSecret)
                 .clientName(this.clientName)
-                .clientIdIssuedAt(this.clientIdIssuedAt)
                 .clientAuthenticationMethods(am -> am.addAll(this.clientAuthenticationMethods))
                 .authorizationGrantTypes(gt -> gt.addAll(this.authorizationGrantTypes))
                 .redirectUris(ru -> ru.addAll(this.redirectUris))

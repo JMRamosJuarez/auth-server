@@ -12,9 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
@@ -39,17 +39,8 @@ public class JwtConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(AppUsersService usersService) {
         return context -> {
-            final Authentication principal = context.getPrincipal();
-
             final OAuth2TokenType tokenType = context.getTokenType();
-
-            final JwtClaimsSet.Builder claims = context.getClaims();
-
-            final OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
-
-            if (OidcParameterNames.ID_TOKEN.equals(tokenType.getValue())) {
-                claims.claims(c -> c.putAll(userInfo.getClaims()));
-            }
+            final Authentication principal = context.getPrincipal();
 
             if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {
                 final Set<String> roles = principal
@@ -57,8 +48,17 @@ public class JwtConfig {
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
-                claims.claim("sub", userInfo.getSubject());
-                claims.claim("roles", roles);
+                context.getClaims().claim("roles", roles);
+            }
+
+            if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType) && !(principal instanceof OAuth2ClientAuthenticationToken)) {
+                final OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
+                context.getClaims().claims(c -> c.putAll(userInfo.getClaims()));
+            }
+
+            if (OidcParameterNames.ID_TOKEN.equals(tokenType.getValue())) {
+                final OidcUserInfo userInfo = usersService.getUserInfo(principal.getName());
+                context.getClaims().claims(c -> c.putAll(userInfo.getClaims()));
             }
         };
     }

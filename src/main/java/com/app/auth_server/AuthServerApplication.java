@@ -9,13 +9,13 @@ public class AuthServerApplication implements CommandLineRunner {
 
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
-//
+
 //    @Autowired
 //    private RegisteredClientRepository clientRepository;
-//
+
 //    @Autowired
 //    private RolesRepository rolesRepository;
-//
+
 //    @Autowired
 //    private AppUsersRepository appUsersRepository;
 
@@ -65,7 +65,7 @@ public class AuthServerApplication implements CommandLineRunner {
 //                .password(this.passwordEncoder.encode("password"))
 //                .name("Root app user")
 //                .email("root@email.com")
-//                .birthDay(LocalDate.of(1991, Month.OCTOBER, 22))
+//                .birthdate(LocalDate.of(1991, Month.OCTOBER, 22))
 //                .roles(Set.of(owner, admin, user))
 //                .build();
 //
