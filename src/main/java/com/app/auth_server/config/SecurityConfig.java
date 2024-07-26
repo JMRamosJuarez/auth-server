@@ -53,9 +53,8 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/v1/users")
+                        .requestMatchers("/api/v1/sign-up")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

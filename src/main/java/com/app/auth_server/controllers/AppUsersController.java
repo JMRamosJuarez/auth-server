@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class AppUsersController {
 
     @Autowired
     private AppUsersService usersService;
 
-    @PostMapping
-    public ResponseEntity<AppUserDto> create(@RequestBody CreateAppUserDto createAppUserDto) {
-        final AppUserDto userDto = this.usersService.create(createAppUserDto);
+    @PostMapping("/sign-up")
+    public ResponseEntity<AppUserDto> signUp(@RequestBody CreateAppUserDto createAppUserDto) {
+        final AppUserDto userDto = this.usersService.signUp(createAppUserDto);
         return ResponseEntity.ok(userDto);
     }
 }

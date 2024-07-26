@@ -36,7 +36,7 @@ public class AppUsersService implements UserDetailsService {
         );
     }
 
-    public AppUserDto create(CreateAppUserDto createAppUserDto) {
+    public AppUserDto signUp(CreateAppUserDto createAppUserDto) {
 
         final Set<Role> roles = createAppUserDto.getRoles()
                 .stream()
