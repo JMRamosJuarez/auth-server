@@ -8,6 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AuthServerApplication implements CommandLineRunner {
 
 //    @Autowired
+//    private OAuthClientSettings clientSettings;
+
+//    @Autowired
+//    private JwtSettings jwtSettings;
+
+//    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
@@ -35,6 +41,9 @@ public class AuthServerApplication implements CommandLineRunner {
 //                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
 //                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 //                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+//                .clientSettings(this.clientSettings.getClientSettings())
+//                .tokenSettings(this.jwtSettings.getTokenSettings())
+//                .redirectUri("http://localhost:8081/login/oauth2/code/auth-server-client")
 //                .redirectUri("http://127.0.0.1:8081/login/oauth2/code/auth-server-client")
 //                .redirectUri("https://oauth.pstmn.io/v1/callback")
 //                .scope("client.create")
@@ -42,6 +51,7 @@ public class AuthServerApplication implements CommandLineRunner {
 //                .scope("openid")
 //                .scope("profile")
 //                .scope("email")
+//                .scope("name")
 //                .build();
 //
 //        this.clientRepository.save(client);

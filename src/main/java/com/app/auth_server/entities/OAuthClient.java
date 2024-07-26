@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
 import java.time.Instant;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class OAuthClient {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> scopes;
 
-    public RegisteredClient toRegisteredClient() {
+    public RegisteredClient toRegisteredClient(ClientSettings clientSettings, TokenSettings tokenSettings) {
         return RegisteredClient
                 .withId(this.id)
                 .clientId(this.clientId)
@@ -70,12 +71,8 @@ public class OAuthClient {
                 .authorizationGrantTypes(gt -> gt.addAll(this.authorizationGrantTypes))
                 .redirectUris(ru -> ru.addAll(this.redirectUris))
                 .scopes(sc -> sc.addAll(this.scopes))
-                .clientSettings(
-                        ClientSettings
-                                .builder()
-                                .requireAuthorizationConsent(true)
-                                .build()
-                )
+                .clientSettings(clientSettings)
+                .tokenSettings(tokenSettings)
                 .build();
     }
 }

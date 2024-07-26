@@ -1,6 +1,7 @@
 package com.app.auth_server.config;
 
 import com.app.auth_server.services.AppUsersService;
+import com.app.auth_server.settings.RsaKeySettings;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtConfig {
 
-    private final RsaKeyProperties rsaKeyProperties;
+    private final RsaKeySettings rsaKeySettings;
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(AppUsersService usersService) {
@@ -65,9 +66,9 @@ public class JwtConfig {
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
         final RSAKey rsaKey = new RSAKey
-                .Builder(this.rsaKeyProperties.getPublicKey())
-                .privateKey(this.rsaKeyProperties.getPrivateKey())
-                .keyID(this.rsaKeyProperties.getKid())
+                .Builder(this.rsaKeySettings.getPublicKey())
+                .privateKey(this.rsaKeySettings.getPrivateKey())
+                .keyID(this.rsaKeySettings.getKid())
                 .build();
         final JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);

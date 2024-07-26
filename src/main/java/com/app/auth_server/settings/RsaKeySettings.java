@@ -1,4 +1,4 @@
-package com.app.auth_server.config;
+package com.app.auth_server.settings;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,7 +10,7 @@ import java.security.interfaces.RSAPublicKey;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "rsa")
-public class RsaKeyProperties {
+public class RsaKeySettings {
     private String kid;
     private RSAPublicKey publicKey;
     private RSAPrivateKey privateKey;
