@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppUserDto {
 
-    @JsonProperty("username")
+    @JsonProperty("name")
     private String name;
 
     @JsonProperty("email")
