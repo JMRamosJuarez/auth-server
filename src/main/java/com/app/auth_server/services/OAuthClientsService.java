@@ -1,6 +1,7 @@
 package com.app.auth_server.services;
 
 import com.app.auth_server.entities.OAuthClient;
+import com.app.auth_server.errors.ClientNotFoundException;
 import com.app.auth_server.repositories.OAuthClientsRepository;
 import com.app.auth_server.settings.JwtSettings;
 import com.app.auth_server.settings.OAuthClientSettings;
@@ -40,7 +41,7 @@ public class OAuthClientsService implements RegisteredClientRepository {
     public RegisteredClient findById(String id) {
         return this.oAuthClientsRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"))
+                .orElseThrow(() -> new ClientNotFoundException("Client not found by id"))
                 .toRegisteredClient(
                         this.oAuthClientSettings.getClientSettings(),
                         this.jwtSettings.getTokenSettings()
@@ -51,7 +52,7 @@ public class OAuthClientsService implements RegisteredClientRepository {
     public RegisteredClient findByClientId(String clientId) {
         return this.oAuthClientsRepository
                 .findByClientId(clientId)
-                .orElseThrow(() -> new RuntimeException("Client not found"))
+                .orElseThrow(() -> new ClientNotFoundException("Client not found by client_id"))
                 .toRegisteredClient(
                         this.oAuthClientSettings.getClientSettings(),
                         this.jwtSettings.getTokenSettings()

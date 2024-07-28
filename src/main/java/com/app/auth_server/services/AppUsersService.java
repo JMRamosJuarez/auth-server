@@ -4,7 +4,7 @@ import com.app.auth_server.dto.AppUserDto;
 import com.app.auth_server.dto.CreateAppUserDto;
 import com.app.auth_server.entities.AppUser;
 import com.app.auth_server.entities.Role;
-import com.app.auth_server.entities.RoleType;
+import com.app.auth_server.errors.RoleNotFoundException;
 import com.app.auth_server.repositories.AppUsersRepository;
 import com.app.auth_server.repositories.RolesRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,15 @@ public class AppUsersService implements UserDetailsService {
 
         final Set<Role> roles = createAppUserDto.getRoles()
                 .stream()
-                .map(r -> this.rolesRepository.findByType(RoleType.valueOf(r)).orElseThrow(() -> new RuntimeException("Role not found")))
+                .map(
+                        r -> this.rolesRepository
+                                .findByType(r)
+                                .orElseThrow(
+                                        () -> new RoleNotFoundException(
+                                                "Role not found %s".formatted(r.name())
+                                        )
+                                )
+                )
                 .collect(Collectors.toSet());
 
         final AppUser user = this.usersRepository.save(
